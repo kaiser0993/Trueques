@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Calificaciones_Cliente>
+@using System
+@{
+    ViewBag.Title = "EdadesClientes";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+</head>
+
+<br />
+<h2>Cantidad de productos por categoría</h2>
+
+<div style="padding-left: 10%">
+    <br />
+    <div style="width: 450px; height: 420px; margin-right: 25%; background-color: #fafafa; border: 1px solid #dedede; ">
+        <canvas id="CntCatProd" width="400" height="350"></canvas>
+    </div>
+</div>
+
+@{
+
+
+    <script>
+        //Productos en Categorias - Barra
+        var ctx3 = document.getElementById("CntCatProd");
+                var myChart = new Chart(ctx3, {
+        type: "horizontalBar",
+        data: {
+            labels: [@Html.Raw(ViewBag.ListaNombreString)],
+            datasets: [{
+                label: 'Cantidad de productos',
+                data: [@Html.Raw(ViewBag.ListaCanProductosString)],
+                backgroundColor: [
+                    'rgb(133, 247, 131)',
+                    'rgb(110, 8, 150)',
+                    'rgb(247, 230, 131)',
+                    'rgb(217, 94, 17)',
+                    'rgb(252, 147, 10)',
+                    'rgb(181, 7, 138)',
+                    'rgb(133, 247, 131)',
+                    'rgb(110, 8, 150)',
+                    'rgb(247, 230, 131)',
+                    'rgb(217, 94, 17)',
+                    'rgb(252, 147, 10)',
+
+                ]
+            }]
+        },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+
+    </script>
+
+
+}
+
+

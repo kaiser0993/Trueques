@@ -1,0 +1,63 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Subasta
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+    </head>
+
+    <div class="cuerpo">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+                    <h2>Editar datos de la subasta</h2>
+
+                </div>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        <label>Fecha de inicio</label>
+                        @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    
+                    @*@Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        <label>Fecha de finalización</label>
+                        @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="submit" value="Guardar" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>

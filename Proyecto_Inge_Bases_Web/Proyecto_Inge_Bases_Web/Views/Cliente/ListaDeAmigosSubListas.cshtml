@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "ListaDeAmigosSubListas";
+}
+
+<head>
+    <!--Este estilo es para que las cartas o contenedores se posicionen juntos-->
+    <style>
+        .card {
+            display: inline-block;
+        }
+    </style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<!--Icons library-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+@using (Html.BeginForm("EdicionPerfil", "Cliente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <!--Side Bar-->
+    
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">
+    <label style="margin-left:20px; margin-top:35px; ">Categorías:</label>
+    <br />
+    @foreach (var item in (SelectList)ViewBag.Categoria)
+    {
+        <br>
+        <label for="@item.Value" style="margin-left:20px">@item.Text</label>
+        <br>
+    }
+
+</div>
+}
+    <div class="row justify-content-center">
+        <div class="col-xs-6">
+            <div class="card mx-auto" style="width: 30rem; margin-top:35px">
+                <div class="card-header text-left" style="padding:25px">
+                    <h5>Categoria Seleccionada</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="card mx-auto" style="width: 30rem;  margin-top:35px">
+                <div class="card-header text-left" style="padding:25px">
+                    <h5>Mi lista de Amigos</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>

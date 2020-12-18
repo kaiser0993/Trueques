@@ -1,0 +1,95 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Relacion_ClienteOfertaEnSubasta
+@{
+    ViewBag.Title = "OfertarEnSubasta";
+}
+
+
+@{
+    string date = Model.FechaPublicado.ToString("dd/MM/yyyy hh:mm:ss");
+}
+
+
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+        .cuerpo {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        div.MediumTextSize {
+            font-size: 125%;
+        }
+
+        div.HeaderTextSize {
+            font-size: 150%;
+        }
+    </style>
+</head>
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Cuanto desea ofrecer por: @ViewBag.Nombre</h2> <hr />
+    </div>
+    @using (Html.BeginForm())
+    {
+
+        @Html.AntiForgeryToken()
+        @Html.DisplayFor(model => model.Subasta.PrecioMinimo)
+        @Html.HiddenFor(model => model.ProductoIDSubastado, new { @Value = Model.ProductoIDSubastado })
+        @Html.HiddenFor(model => model.CorreoSubastador, new { @Value = Model.CorreoSubastador })
+        @Html.HiddenFor(model => model.FechaPublicado, new { @Value = date })
+
+        @*@Html.TextBoxFor(model => model.ProductoIDSubastado, new { @Value = Model.ProductoIDSubastado })
+            @Html.TextBoxFor(model => model.CorreoSubastador, new { @Value = Model.CorreoSubastador })
+            @Html.TextBoxFor(model => model.FechaPublicado, new { @Value = date })*@
+<div class="col-md-10">
+
+
+    <p style="color: darkred">@ViewBag.Aviso</p>
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td>Precio mínimo: ₡@ViewBag.PrecioMinimo</td>
+                <td>Fecha inicial: @ViewBag.FechaInicio</td>
+            </tr>
+            <tr>
+                <td>Dueño: @Model.CorreoSubastador</td>
+                <td>Fecha finalización: @ViewBag.FechaFin</td>
+            </tr>
+            <tr>
+                <td>Condición: @ViewBag.Condicion</td>
+                <td>Mayor oferta: ₡@ViewBag.OfertaMaxima </td>
+            </tr>
+        </tbody>
+    </table>
+    @if (ViewBag.Descripcion != null)
+    {
+        <p>Descipción:</p>
+        <p>ViewBag.Descripcion</p>
+    }
+
+</div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrecioOfrecido, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PrecioOfrecido, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PrecioOfrecido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action("Index", "Subastas2")'"> Volver</button>
+                    <input class="btn btn-info" style="background-color:  #00c0f3" type="submit" value="Ofrecer" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+

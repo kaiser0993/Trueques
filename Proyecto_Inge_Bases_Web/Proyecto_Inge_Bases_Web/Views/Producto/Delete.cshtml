@@ -1,0 +1,104 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 30px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+    </head>
+
+    <div class="cuerpo">
+        <h3 class="text-secondary mt-2">¿Está seguro que desea borrar este producto?</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                <!--@Html.DisplayNameFor(model => model.PrecioEstimado)-->
+                Precio del producto
+            </dt>
+
+            <dd>
+                ₡@Html.DisplayFor(model => model.PrecioEstimado)
+            </dd>
+
+            <dt>
+                <!--@Html.DisplayNameFor(model => model.Condicion)-->
+                Condición
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Condicion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+            </dt>
+
+            <dd>
+                @if (Model.PathImagen1 != null)
+                {
+                    <img src="@Url.Content(Model.PathImagen1)" alt="Imagen1" style="width:100px; height:100px" />
+                }
+                @if (Model.PathImagen2 != null)
+                {
+                    <img src="@Url.Content(Model.PathImagen2)" alt="Imagen2" style="width:100px; height:100px" />
+                }
+                @if (Model.PathImagen3 != null)
+                {
+                    <img src="@Url.Content(Model.PathImagen3)" alt="Imagen3" style="width:100px; height:100px" />
+                }
+            </dd>
+            <dd>
+
+            </dd>
+            <dd>
+
+            </dd>
+
+            <!--Correo-->
+            <div class="form-group">
+                <!--@Html.LabelFor(model => model.CorreoCliente, htmlAttributes: new { @class = "control-label col-md-2 required" })-->
+                <div class="col-md-10">
+                    <!-- @Html.EditorFor(model => model.CorreoCliente, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })-->
+                    <!--Permite que se puede guardar la informacion sin embargo no muestra el correo-->
+                    @Html.HiddenFor(model => model.CorreoCliente)
+                    @Html.ValidationMessageFor(model => model.CorreoCliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </dl><br />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action( "Index")'">Volver</button>
+                <input type="submit" value="Borrar" class="btn btn-info" style="background-color:  #00c0f3" />
+            </div>
+        }
+    </div>

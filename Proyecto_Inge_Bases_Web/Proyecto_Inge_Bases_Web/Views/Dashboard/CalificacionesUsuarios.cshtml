@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Calificaciones_Cliente>
+@using System
+@{
+    ViewBag.Title = "CalificacionesUsuarios";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+</head>
+
+<br />
+
+<h2>Cantidad de usuarios según su calificación promedio</h2>
+<div class="row"  style ="padding-left: 10%">
+    <div class="column">
+        <div style="padding-left: 10%">
+            <br />
+            <div style="width: 450px; height: 420px; margin-right: 25%; background-color: #fafafa; border: 1px solid #dedede; ">
+                <canvas id="CntUsuarios" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+    @{
+        int c0 = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+        foreach (var item in Model)
+        {
+            int? calculoPromedio = 0;
+            if (item.CantidadResenas != 0)
+            {
+                calculoPromedio = item.SumaCalificaciones / item.CantidadResenas;
+            }
+
+            if (item.CantidadResenas == 0)
+            {
+                c0++;
+            }
+            if (calculoPromedio == 1)
+            {
+                c1++;
+            }
+            if (calculoPromedio == 2)
+            {
+                c2++;
+            }
+            if (calculoPromedio == 3)
+            {
+                c3++;
+            }
+            if (calculoPromedio == 4)
+            {
+                c4++;
+            }
+            if (calculoPromedio == 5)
+            {
+                c5++;
+            }
+        }
+        <script>
+        //Promedio de calificaciones de usuarios - Barra
+    var ctx = document.getElementById("CntUsuarios");
+                var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+                labels: ['5 Estrellas', '4 Estrellas', '3 Estrellas', '2 Estrellas', '1 Estrella', 'Sin Calificación'],
+            datasets: [{
+                    label: 'Cantidad de usuarios',
+                data: [@c5, @c4, @c3, @c2, @c1, @c0],
+                backgroundColor: [
+                    'rgb(202, 240, 260)',
+                    'rgb(202, 240, 248)',
+                    'rgb(0, 180, 216)',
+                    'rgb(0, 180, 216)',
+                    'rgb(0, 119, 182)',
+                    'rgb(3, 4, 94)'
+                ]
+            }]
+        },
+        options: {
+                legend: {
+                    display: false
+                },
+            scales: {
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 1,
+                        beginAtZero: true
+                        }
+                        }],
+                xAxes: [{
+
+                        }]
+            }
+                }
+                });
+        </script>
+    }

@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Denuncia>
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_LayoutAdministrador.cshtml"; }
+<br />
+<h2>Denuncias</h2>
+<style>
+    table {
+        background-color: white;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th {
+        cursor: pointer;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        padding: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+</style>
+<table class="container" ,"mt-lg-auto"," ml-lg-auto" id="myTable">
+    <thead>
+        <tr>
+
+            <th>Correo usuario denunciado </th>
+            <th>Correo usuario denunciante </th>
+            <th>Causa de la denuncia </th>
+            <th>Fecha</th>
+            <th>Accion</th>
+        </tr>
+    </thead>
+
+    <!--Información de Usuarios inventada-->
+    @foreach (var item in Model)
+    {
+
+
+
+<tbody id="body">
+
+
+    <tr>
+        <td>@Html.DisplayFor(model => item.Denunciado)</td>
+        <td>@Html.DisplayFor(model => item.Denunciante)</td>
+        @{int x = item.Tipo;
+            String elComentario = item.Comentarios;
+            if (elComentario == null)
+            {
+                elComentario = "No hay comentario.";
+            }
+            switch (x)
+            {
+                case 0:
+<td>
+    <center>
+        Producto ilícito
+
+
+
+        <br />
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+
+    </center>
+</td> break;
+                    case 1:
+<td>
+
+    <center>
+        Lenguaje ofensivo
+
+
+
+        <br />
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+
+    </center>
+
+
+</td> break;
+                    case 2:
+<td>
+
+    <center>
+        Descripción engañosa
+
+
+
+        <br />
+
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+
+    </center>
+</td> break;
+                    case 3:
+<td>
+    <center>
+        Producto falso
+        <br />
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+    </center>
+</td> break;
+                    case 4:
+<td>
+    <center>
+        Incita al odio
+        <br />
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+    </center>
+</td> break;
+                    case 5:
+<td>
+    <center>
+        Otros
+        <br />
+        <button type="button" class="btn btn-default" style="color: #005da4" data-toggle="modal" data-target="#exampleModal" onclick='Delete("@elComentario")'>(Ver descripción)</button>
+    </center>
+</td> break;
+
+                } }
+
+        <td>@Html.DisplayFor(model => item.Fecha)</td>
+        <td>
+            @Html.ActionLink("Bloquear", "BloquearUsuario", new { denunciado = item.Denunciado }, null)/
+            @Html.ActionLink("Ignorar", "EliminarDenuncia", new { fecha = item.Fecha })
+        </td>
+    </tr>
+</tbody>}
+
+
+</table>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function Delete(comentario) {
+        $('.modal-body').html(comentario);
+        $('#exampleModal').modal('show');
+    }
+
+    $('#exampleModal').on('hidden.bs.modal', function (e) {
+        $('.modal-body').html("");
+    })
+</script>

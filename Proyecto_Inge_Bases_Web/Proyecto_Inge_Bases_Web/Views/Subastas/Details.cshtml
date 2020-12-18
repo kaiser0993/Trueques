@@ -1,0 +1,60 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Subasta
+
+@{
+    ViewBag.Title = "Details";
+}
+
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+    </head>
+
+    <div class="cuerpo">
+
+        <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+            <h2>Detalles de mi subasta</h2>
+            <hr />
+        </div>
+
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Fecha de inicio de la Subasta
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaInicio)
+                </dd>
+
+                <dt>
+                    Fecha de finalización de la subasta
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaFin)
+                </dd>
+
+                <dt>
+                    Calificación
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Calificacion)
+                </dd>
+
+            </dl>
+        </div>
+        <br />
+        <p>
+            <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href = '@Url.Action( "Index")'">Volver</button>
+            
+        </p>
+    </div>

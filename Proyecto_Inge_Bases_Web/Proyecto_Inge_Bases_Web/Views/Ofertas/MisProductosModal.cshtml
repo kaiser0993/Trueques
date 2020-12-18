@@ -1,0 +1,186 @@
+﻿@model PagedList.IPagedList<Proyecto_Inge_Bases_Web.Models.Producto>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "MisProductosModal";
+    Layout = null;
+}
+
+
+<head>
+    
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+        tableCustom {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .cuerpo {
+            margin: auto;
+            width: 88%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<div class="cuerpo">
+    <form style="margin-left : 0px">
+        @using (Html.BeginForm("Index", "Mis Productos", FormMethod.Get))
+        {
+            <div class="form-group">
+                <!--Esto solo agrega el searchbox hay que acomodarlo al look and feel, sin embargo como está ya sirve-->
+                Buscar Producto: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) <!--Esto permite seguir viendo el criterio de busqueda-->
+                <input type="submit" value="Buscar" />
+
+                <!--Esto es para agregar producto, hay que acomodarlo al look and feel-->
+            </div>
+        }
+    </form>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th span style="width: 350px">
+                    <p style="text-align: center">
+                        <strong>Imagen</strong>
+                    </p>
+                </th>
+                <th span style="width: 250px">
+                    <p style="text-align: center">
+                        <strong>Nombre</strong>
+                    </p>
+                </th>
+                <th span style="width: 200px">
+                    <p style="text-align: center">
+                        <strong>Precio Estimado</strong>
+                    </p>
+                </th>
+                <th span style="width: 150px">
+                    <p style="text-align: center">
+                        <strong>Condición</strong>
+                    </p>
+                </th>
+                <th span style="width: 150px">
+                    <p style="text-align: center">
+                        <strong>Estado</strong>
+                    </p>
+                </th>
+                <th span style="width: 300px">
+                    <p style="text-align: center">
+                        <strong>Opciones</strong>
+                    </p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td span style="width: 250px">
+                        <p style="text-align: center; ">
+                            @if (item.PathImagen1 != null)
+                            {
+                                <img src="@Url.Content(item.PathImagen1)" alt="Imagen" style="width:100px; height:100px" />
+                            }
+                            else if (item.PathImagen2 != null)
+                            {
+                                <img src="@Url.Content(item.PathImagen2)" alt="Imagen" style="width:100px; height:100px" />
+                            }
+                            else if (item.PathImagen3 != null)
+                            {
+                                <img src="@Url.Content(item.PathImagen3)" alt="Imagen" style="width:100px; height:100px" />
+                            }
+                            else
+                            {
+                                <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" style="width:100px; height:100px">
+                            }
+                        </p>
+                    </td>
+                    <td span style="width: 250px">
+                        <p style="text-align: center;">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </p>
+                    </td>
+                    <td span style="width : 200px">
+                        <p style="text-align: center;">
+                            @Html.DisplayFor(modelItem => item.PrecioEstimado)
+                        </p>
+                    </td>
+
+                    <td span style="width : 150px">
+                        <p style="text-align: center;">
+                            @Html.DisplayFor(modelItem => item.Condicion)
+                        </p>
+                    </td>
+                    <td span style="width: 150px; text-align:center">
+                        @if (item.Publicado == true)
+                        {
+                            <p>Publicado</p>
+                        }
+                        else if (item.Publicado == false)
+                        {
+                            <p>Sin publicar</p>
+                        }
+                        else
+                        {
+                            <p>--</p>
+                        }
+                    </td>
+                    <td span style="width : 300px" class="text-center">
+                        @if (!item.Seleccionado)
+                        {
+                            <button id="@item.ProductoID" class="btn btn-light" style="background-color:  whitesmoke" type="button" onclick="myFunction(@item.ProductoID)">Seleccionar</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-light" style="background-color:  whitesmoke" type="button" onclick="myFunction(@item.ProductoID)">Deseleccionar</button>
+                        }
+                        <script type="text/javascript" language="javascript">
+                            function myFunction(ids) {
+                                var button = document.getElementById(ids);
+                                if (button.innerHTML == "Seleccionar") {
+                                    button.innerHTML = "Deseleccionar";
+                                }
+                                else {
+                                    button.innerHTML = "Seleccionar";  
+                                }
+                                
+                                $.ajax({
+                                    type: "POST",
+                                    url: '@Url.Action("Seleccionar", "Ofertas")',
+                                    data: JSON.stringify({ id: ids }),
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function () { console.log("funca") },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        console.log(errorThrown)
+                                    }
+                                });
+                            }
+                        </script>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table> <br />
+
+    <div style="text-align:center; margin-top: 20px">
+        <!--Agrega los botones para la paginacion, falta acomodarlo al look n feel-->
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+
+</div>

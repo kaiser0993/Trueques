@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Subasta>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+            .cuerpo {
+                margin: auto;
+                width: 88%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+
+            div.MediumTextSize {
+                font-size: 125%;
+            }
+
+            div.HeaderTextSize {
+                font-size: 150%;
+            }
+        </style>
+    </head>
+
+
+    <div class="cuerpo">
+        <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+            <h2>Subastas activas</h2>
+        </div>
+        <table class="table">
+            <tr>
+                <th style="text-align: center">
+                    Imagen
+                </th>
+                <th style="text-align: center">
+                    Producto
+                </th>
+                <th style="text-align: center">
+                    Precio mínimo
+                </th>
+                <th style="text-align: center">
+                    Subastador
+                </th>
+                <th style="text-align: center">
+                    Fecha de inicio
+                </th>
+                <th style="text-align: center">
+                    Fecha de finalización
+                </th>
+
+                <th></th>
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                //Solo muestra subastas que no hayan finalizado
+                int dif = DateTime.Compare(item.FechaFin, DateTime.Now);
+                int dif2 = DateTime.Compare(item.FechaInicio, DateTime.Now);
+                if (dif > 0 && dif2 <= 0)
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @if (item.Producto.PathImagen1 != null)
+                            {
+                                <img src="@Url.Content(item.Producto.PathImagen1)" alt="Imagen" style="width:200px; height:200px" />
+                            }
+                            else if (item.Producto.PathImagen2 != null)
+                            {
+                                <img src="@Url.Content(item.Producto.PathImagen2)" alt="Imagen" style="width:200px; height:200px" />
+                            }
+                            else if (item.Producto.PathImagen3 != null)
+                            {
+                                <img src="@Url.Content(item.Producto.PathImagen3)" alt="Imagen" style="width:200px; height:200px" />
+                            }
+                            else
+                            {
+                                <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" style="width:200px; height:200px">
+                            }
+                        </td>
+                        <td style="vertical-align:middle; text-align: center">
+                            @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                        </td>
+                        <td style="vertical-align:middle; text-align: center">
+                            ₡@Html.DisplayFor(modelItem => item.PrecioMinimo)
+
+                        </td>
+                        <td style="vertical-align:middle; text-align: center">
+                            @Html.DisplayFor(modelItem => item.Producto.Cliente.Registrado.Nombre) @Html.DisplayFor(modelItem => item.Producto.Cliente.Registrado.Apellido1)
+                        </td>
+                        <td style="vertical-align:middle; text-align: center">
+                            @Html.DisplayFor(modelItem => item.FechaInicio)
+                        </td>
+                        <td style="vertical-align:middle; text-align: center">
+                            @Html.DisplayFor(modelItem => item.FechaFin)
+                        </td>
+                        
+                        <td style="vertical-align:middle; text-align: center">
+                            @*@Html.ActionLink("Edit", "Edit", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado }) |
+        @Html.ActionLink("Details", "Details", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado.ToString("MM/dd/yyyy hh:mm:ss.fff") }) |
+        @Html.ActionLink("Delete", "Delete", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })*@
+                            @if (item.CorreoSubastador != (string)Session["Correiro"])
+                            {
+                                <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href= '@Url.Action("OfertarEnSubasta",  new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fechaPublicado = item.FechaPublicado, producto = item.Producto.Nombre, condicion = item.Producto.Condicion, descripcion = item.Producto.Descripcion, precio = item.PrecioMinimo, fechaInicio = item.FechaInicio, fechaFin = item.FechaFin })'">Ofertar</button>
+
+                                @*@Html.ActionLink("Ofertar", "OfertarEnSubasta", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fechaPublicado = item.FechaPublicado, producto = item.Producto.Nombre, condicion = item.Producto.Condicion, descripcion = item.Producto.Descripcion, precio = item.PrecioMinimo, fechaInicio = item.FechaInicio, fechaFin = item.FechaFin })*@
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </table>
+    </div>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Subasta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+            .cuerpo {
+                margin: auto;
+                width: 80%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+    </head>
+
+    <div class="cuerpo">
+        <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+            <h2>Mis Subastas</h2>
+        </div>
+        
+        <table class="table">
+            <tr>
+                <th style="vertical-align:middle">
+                    <p>Fecha Inicio</p>
+                </th>
+                <th style="vertical-align:middle">
+                    <p>Fecha Fin</p>
+                </th>
+                <th style="vertical-align:middle">
+                    <p>Calificación</p>
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td style="vertical-align:middle">
+                        @if (item.FechaInicio != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.FechaInicio)
+
+                        }
+                        else
+                        {
+                            <p>---</p>
+                        }
+                    </td>
+                    <td style="vertical-align:middle">
+                        @if (item.FechaFin != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.FechaFin)
+
+                        }
+                        else
+                        {
+                            <p>---</p>
+                        }
+                    </td>
+                    <td style="vertical-align:middle">
+                        @if (item.Calificacion != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.Calificacion)
+
+                        }
+                        else
+                        {
+                            <p>Sin calificación</p>
+                        }
+                    </td>
+
+                    <td>
+                        <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href = '@Url.Action( "Edit", new { id = item.Id })'">Editar</button>
+                        <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href = '@Url.Action( "Delete", new { id = item.Id })'">Borrar</button>
+                        <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href = '@Url.Action( "Details", new {id = item.Id })'">Detalles</button>
+
+                    </td>
+                </tr>
+
+            }
+
+        </table>
+    </div>
